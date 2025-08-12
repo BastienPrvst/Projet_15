@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\MediaRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: MediaRepository::class)]
 class Media
@@ -14,7 +15,7 @@ class Media
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: "medias", fetch: "EAGER")]
+    #[ORM\ManyToOne(targetEntity: User::class, fetch: "EAGER", inversedBy: "medias")]
     private ?User $user = null;
 
     #[ORM\ManyToOne(targetEntity: Album::class, fetch: "EAGER")]
@@ -26,6 +27,11 @@ class Media
     #[ORM\Column]
     private string $title;
 
+	#[Assert\File(
+		maxSize: '2M',
+		extensions: 'png, jpg, jpeg',
+		extensionsMessage: 'Utilisez un type de fichier valide (png, jpg, jpeg)',
+	)]
     private ?UploadedFile $file = null;
 
     public function getId(): ?int
