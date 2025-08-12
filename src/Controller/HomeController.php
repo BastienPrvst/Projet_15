@@ -5,12 +5,19 @@ namespace App\Controller;
 use App\Entity\Album;
 use App\Entity\Media;
 use App\Entity\User;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class HomeController extends AbstractController
 {
+	public function __construct(
+		private readonly EntityManagerInterface $entityManager,
+	)
+	{
+	}
+
 	#[Route(path: '/', name: 'home')]
 	public function home(): Response
 	{
@@ -20,7 +27,7 @@ class HomeController extends AbstractController
 	#[Route(path: '/guests', name: 'guests')]
 	public function guests(): Response
 	{
-        $guests = $this->getDoctrine()->getRepository(User::class)->findBy(['admin' => false]);
+        $guests = $this->entityManager->getRepository(User::class)->findBy(['admin' => false]);
         return $this->render('front/guests.html.twig', [
             'guests' => $guests
         ]);
@@ -29,7 +36,7 @@ class HomeController extends AbstractController
 	#[Route(path: '/guest/{id}', name: 'guest')]
 	public function guest(int $id): Response
 	{
-        $guest = $this->getDoctrine()->getRepository(User::class)->find($id);
+        $guest = $this->entityManager->getRepository(User::class)->find($id);
         return $this->render('front/guest.html.twig', [
             'guest' => $guest
         ]);
@@ -38,13 +45,16 @@ class HomeController extends AbstractController
     #[Route(path: '/portfolio/{id}', name: 'portfolio')]
 	public function portfolio(?int $id = null): Response
     {
-	    $albums = $this->getDoctrine()->getRepository(Album::class)->findAll();
-	    $album = $id ? $this->getDoctrine()->getRepository(Album::class)->find($id) : null;
-	    $user = $this->getDoctrine()->getRepository(User::class)->findOneByAdmin(true);
+		$albumRepo = $this->entityManager->getRepository(Album::class);
+		$mediaRepo = $this->entityManager->getRepository(Media::class);
+
+	    $albums = $albumRepo->findAll();
+	    $album = $id ? $albumRepo->find($id) : null;
+	    $user = $this->entityManager->getRepository(User::class)->findOneBy(['admin' => true]);
 
 	    $medias = $album
-		    ? $this->getDoctrine()->getRepository(Media::class)->findByAlbum($album)
-		    : $this->getDoctrine()->getRepository(Media::class)->findByUser($user);
+		    ? $mediaRepo->findBy(['album' => $album])
+		    : $mediaRepo->findBy(['user' => $user]);
 	    return $this->render('front/portfolio.html.twig', [
 		    'albums' => $albums,
 		    'album' => $album,
@@ -53,8 +63,8 @@ class HomeController extends AbstractController
     }
 
 	#[Route(path: '/about', name: 'about')]
-	public function about()
-    {
+	public function about(): Response
+	{
         return $this->render('front/about.html.twig');
     }
 }
