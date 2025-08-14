@@ -8,7 +8,7 @@ use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 class HomeController extends AbstractController
 {
@@ -27,7 +27,10 @@ class HomeController extends AbstractController
 	#[Route(path: '/guests', name: 'guests')]
 	public function guests(): Response
 	{
-        $guests = $this->entityManager->getRepository(User::class)->findBy(['admin' => false]);
+        $guests = $this->entityManager->getRepository(User::class)->findAll();
+		$guests = array_filter($guests, static function (User $user) {
+			return $user->getRoles() !== 'ROLE_ADMIN';
+		});
         return $this->render('front/guests.html.twig', [
             'guests' => $guests
         ]);
