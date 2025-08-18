@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Album;
 use App\Entity\Media;
 use App\Entity\User;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,6 +15,7 @@ class HomeController extends AbstractController
 {
 	public function __construct(
 		private readonly EntityManagerInterface $entityManager,
+		private readonly UserRepository $userRepository,
 	)
 	{
 	}
@@ -27,7 +29,7 @@ class HomeController extends AbstractController
 	#[Route(path: '/guests', name: 'guests')]
 	public function guests(): Response
 	{
-        $guests = $this->entityManager->getRepository(User::class)->findAll();
+        $guests = $this->userRepository->findAll();
 		$guests = array_filter($guests, static function (User $user) {
 			return $user->getRoles() !== 'ROLE_ADMIN';
 		});
@@ -39,7 +41,7 @@ class HomeController extends AbstractController
 	#[Route(path: '/guest/{id}', name: 'guest')]
 	public function guest(int $id): Response
 	{
-        $guest = $this->entityManager->getRepository(User::class)->find($id);
+        $guest = $this->userRepository->find($id);
         return $this->render('front/guest.html.twig', [
             'guest' => $guest
         ]);
@@ -53,7 +55,10 @@ class HomeController extends AbstractController
 
 	    $albums = $albumRepo->findAll();
 	    $album = $id ? $albumRepo->find($id) : null;
-	    $user = $this->entityManager->getRepository(User::class)->findOneBy(['admin' => true]);
+	    $allUser = $this->userRepository->findAll();
+	    $user = current(array_filter($allUser, static function (User $user) {
+		    return in_array('ROLE_ADMIN', $user->getRoles(), true);
+	    }));
 
 	    $medias = $album
 		    ? $mediaRepo->findBy(['album' => $album])

@@ -40,13 +40,12 @@ final class Version20250814095946 extends AbstractMigration
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('CREATE SCHEMA public');
         $this->addSql('ALTER TABLE media DROP CONSTRAINT FK_6A2CA10C8D93D649');
         $this->addSql('DROP INDEX IDX_6A2CA10C8D93D649');
         $this->addSql('ALTER TABLE media RENAME COLUMN "user" TO user_id');
         $this->addSql('ALTER TABLE media ADD CONSTRAINT fk_6a2ca10ca76ed395 FOREIGN KEY (user_id) REFERENCES "user" (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('CREATE INDEX idx_6a2ca10ca76ed395 ON media (user_id)');
-        $this->addSql('ALTER TABLE "user" ADD admin BOOLEAN NOT NULL');
+        $this->addSql('ALTER TABLE "user" ADD admin BOOLEAN DEFAULT false;');
         $this->addSql('ALTER TABLE "user" DROP roles');
         $this->addSql('ALTER TABLE "user" DROP password');
         $this->addSql('ALTER TABLE "user" ALTER name SET NOT NULL');

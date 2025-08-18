@@ -25,7 +25,7 @@ class MediaController extends AbstractController
 	public function index(Request $request): Response
 	{
 		$mediasRepo = $this->entityManager->getRepository(Media::class);
-        $page = $request->query->getInt('page', 1);
+        $page = $request->query->getInt('pageMedia', 1);
 
         $criteria = [];
 
@@ -44,7 +44,7 @@ class MediaController extends AbstractController
         return $this->render('admin/media/index.html.twig', [
             'medias' => $medias,
             'total' => $total,
-            'page' => $page
+            'pageMedia' => $page
         ]);
     }
 
