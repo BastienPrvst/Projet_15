@@ -9,6 +9,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
@@ -21,6 +22,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180)]
+    #[Assert\NotBlank(
+		message: 'Veuillez saisir un email',
+    )]
     private ?string $email = null;
 
     /**
@@ -33,12 +37,27 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
+    #[Assert\NotBlank(
+		message: 'Veuillez saisir un mot de passe'
+    )]
+    #[Assert\Regex(
+	    pattern: '/^(?=.*[a-z])(?=.*[A-Z])(?=.*[\d\W]).{8,}$/',
+	    message: 'Le mot de passe doit contenir au moins 8 caractères, dont une majuscule, une minuscule, et un chiffre ou caractère spécial.'
+    )]
     private ?string $password = null;
 
 	#[ORM\Column(type: Types::TEXT, nullable: true)]
 	private ?string $description = null;
 
-    #[ORM\Column(length: 180, nullable: true)]
+    #[ORM\Column]
+    #[Assert\NotBlank(
+		message: 'Veuillez saisir un nom'
+    )]
+	#[Assert\Length(
+		min: 4,
+		max: 255,
+		minMessage: 'Le minimum de caractères est de 4 (actuellement {{ value }}).',
+		maxMessage: 'Le maximum de caractère est de 255 (actuellement {{ value }}).')]
     private ?string $name = null;
 
     /**

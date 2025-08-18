@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -18,6 +19,8 @@ class UserType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+	    $label = $options['type'] === 'edit' ? 'Modifier' : 'Ajouter';
+
         $builder
 	        ->add('name', TextType::class, [
 		        'label' => 'Nom',
@@ -38,21 +41,32 @@ class UserType extends AbstractType
 				'type' => PasswordType::class,
 	            'first_options'  => ['label' => 'Mot de passe'],
 	            'second_options' => ['label' => 'Confirmation mot de passe'],
+	            'required' => $options['type'] === 'create',
+	            'mapped' => false,
             ])
             ->add('description', TextareaType::class, [
 				'label' => 'Description',
             ])
+
 	        ->add('save', SubmitType::class, [
-				'label' => 'Ajouter',
+				'label' => $label,
 		        'attr' => ['class' => 'btn btn-primary'],
 	        ])
         ;
+
+			if ($options['type'] === 'edit') {
+				$builder->add('blocked', CheckboxType::class, [
+					'label' => 'Bloquer',
+					'required' => false,
+				]);
+			}
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+	        'type' => 'create',
         ]);
     }
 }

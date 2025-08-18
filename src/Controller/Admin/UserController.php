@@ -67,6 +67,28 @@ final class UserController extends AbstractController
 		]);
 	}
 
+	#[Route(path: '/admin/user/modify/{id}', name: 'admin_user_modify')]
+	public function edit(Request $request, User $user, UserPasswordHasherInterface $passwordHasher): Response
+	{
+		$form = $this->createForm(UserType::class, $user, [
+			'type' => 'edit'
+		]);
+		$form->handleRequest($request);
+		if ($form->isSubmitted() && $form->isValid()) {
+			$hashedPassword = $passwordHasher->hashPassword($user, $user->getPassword());
+			$user->setPassword($hashedPassword);
+			$this->entityManager->persist($user);
+			$this->entityManager->flush();
+			return $this->redirectToRoute('admin_user_index');
+		}
+		return $this->render('admin/user/edit.html.twig', [
+			'user' => $user,
+			'form' => $form
+		]);
+
+	}
+
+
 	#[Route(path: '/admin/user/delete/{id}', name: 'admin_user_delete')]
 	public function delete(int $id): RedirectResponse
 	{
