@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -32,5 +33,13 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->getEntityManager()->persist($user);
         $this->getEntityManager()->flush();
     }
+
+	public function findGuest(): array
+	{
+		$conn = $this->getEntityManager()->getConnection();
+		$sql = 'SELECT u.id, u.name, COUNT(m.*) as counted_medias FROM "user" u LEFT JOIN media m ON m.user = u.id WHERE NOT (:role @> u.roles::jsonb) GROUP BY u.id, u.name';
+		$stmt = $conn->prepare($sql);
+		return $stmt->executeQuery(['role' => '"ROLE_ADMIN"'])->fetchAllAssociative();
+	}
 
 }

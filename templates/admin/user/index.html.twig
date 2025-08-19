@@ -9,9 +9,9 @@
         <thead>
         <tr>
             <th>Nom</th>
-            <th>Description</th>
             <th>Email</th>
             <th>Roles</th>
+            <th>État</th>
             <th>Actions</th>
         </tr>
         </thead>
@@ -19,9 +19,9 @@
         {% for user in users %}
             <tr>
                 <td>{{ user.name }}</td>
-                <td class="w-50">{{ user.description }}</td>
                 <td>{{ user.email }}</td>
-                <td>{% for role in user.roles %} {{ role }} {% endfor %}</td>
+                <td>{{ "ROLE_ADMIN" in user.roles ? "Administrateur" : "Invité" }}</td>
+                <td>{{ user.blocked == true ? "Bloqué" : "Actif"}}</td>
                 <td>
                     <a href="{{ path('admin_user_modify', {id: user.id}) }}" class="btn btn-warning my-3">Modifier</a>
                     <a href="{{ path('admin_user_delete', {id: user.id}) }}" class="btn btn-danger">Supprimer</a>

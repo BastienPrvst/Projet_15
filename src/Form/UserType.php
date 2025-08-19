@@ -20,6 +20,7 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
 	    $label = $options['type'] === 'edit' ? 'Modifier' : 'Ajouter';
+		$c = !($options['type'] === 'edit');
 
         $builder
 	        ->add('name', TextType::class, [
@@ -33,7 +34,6 @@ class UserType extends AbstractType
 	            'multiple' => true,
 				'expanded' => true,
 	            'choices'=> [
-					'Utilisateur' => 'ROLE_USER',
 		            'Administrateur' => 'ROLE_ADMIN',
 	            ]
             ])
@@ -42,7 +42,7 @@ class UserType extends AbstractType
 	            'first_options'  => ['label' => 'Mot de passe'],
 	            'second_options' => ['label' => 'Confirmation mot de passe'],
 	            'required' => $options['type'] === 'create',
-	            'mapped' => false,
+	            'mapped' => $c,
             ])
             ->add('description', TextareaType::class, [
 				'label' => 'Description',

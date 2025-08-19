@@ -29,10 +29,8 @@ class HomeController extends AbstractController
 	#[Route(path: '/guests', name: 'guests')]
 	public function guests(): Response
 	{
-        $guests = $this->userRepository->findAll();
-		$guests = array_filter($guests, static function (User $user) {
-			return $user->getRoles() !== 'ROLE_ADMIN';
-		});
+		$guests = $this->userRepository->findGuest();
+
         return $this->render('front/guests.html.twig', [
             'guests' => $guests
         ]);
