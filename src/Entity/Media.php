@@ -32,7 +32,7 @@ class Media
     private ?UploadedFile $file = null;
 
     #[ORM\ManyToOne(fetch: 'EAGER', inversedBy: 'medias')]
-    #[ORM\JoinColumn(name: 'user', referencedColumnName: 'id')]
+    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id')]
     private ?User $user = null;
 
     public function getId(): ?int
