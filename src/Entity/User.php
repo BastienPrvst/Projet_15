@@ -207,7 +207,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
 	public function isBlocked(): bool
 	{
-		return in_array('ROLE_BLOCKED', $this->roles, true);
+		return $this->blocked;
 	}
 
 	public function setBlocked(bool $blocked): static
