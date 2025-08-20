@@ -23,8 +23,8 @@
                 <td>{{ "ROLE_ADMIN" in user.roles ? "Administrateur" : "Invité" }}</td>
                 <td>{{ user.blocked == true ? "Bloqué" : "Actif"}}</td>
                 <td>
-                    <a href="{{ path('admin_user_modify', {id: user.id}) }}" class="btn btn-warning my-3">Modifier</a>
-                    <a href="{{ path('admin_user_delete', {id: user.id}) }}" class="btn btn-danger">Supprimer</a>
+                    <a href="{{ path('admin_user_modify', {id: user.id, userPage: app.request.query.get('userPage', 1)}) }}" class="btn btn-warning my-3">Modifier</a>
+                    <a href="{{ path('admin_user_delete', {id: user.id, userPage: app.request.query.get('userPage', 1)}) }}" class="btn btn-danger">Supprimer</a>
                 </td>
             </tr>
         {% endfor %}
@@ -34,27 +34,27 @@
 
     <nav aria-label="Page navigation">
         <ul class="pagination">
-            {% if pageUser > 1 %}
+            {% if userPage > 1 %}
                 <li class="page-item">
-                    <a class="page-link" href="{{ path('admin_user_index', {pageUser: 1}) }}">Première page</a>
+                    <a class="page-link" href="{{ path('admin_user_index', {userPage: 1}) }}">Première page</a>
                 </li>
                 <li class="page-item">
-                    <a class="page-link" href="{{ path('admin_user_index', {pageUser: pageUser - 1}) }}">Précédent</a>
+                    <a class="page-link" href="{{ path('admin_user_index', {userPage: userPage - 1}) }}">Précédent</a>
                 </li>
             {% endif %}
 
-            {% for i in range(max(1, pageUser - 3), min(totalPages, pageUser + 3)) %}
-                <li class="page-item {% if i == pageUser %}active{% endif %}">
-                    <a class="page-link" href="{{ path('admin_user_index', {pageUser: i}) }}">{{ i }}</a>
+            {% for i in range(max(1, userPage - 3), min(totalPages, userPage + 3)) %}
+                <li class="page-item {% if i == userPage %}active{% endif %}">
+                    <a class="page-link" href="{{ path('admin_user_index', {userPage: i}) }}">{{ i }}</a>
                 </li>
             {% endfor %}
 
-            {% if pageUser < totalPages %}
+            {% if userPage < totalPages %}
                 <li class="page-item">
-                    <a class="page-link" href="{{ path('admin_user_index', {pageUser: pageUser + 1}) }}">Suivant</a>
+                    <a class="page-link" href="{{ path('admin_user_index', {userPage: userPage + 1}) }}">Suivant</a>
                 </li>
                 <li class="page-item">
-                    <a class="page-link" href="{{ path('admin_user_index', {pageUser: totalPages}) }}">Dernière page</a>
+                    <a class="page-link" href="{{ path('admin_user_index', {userPage: totalPages}) }}">Dernière page</a>
                 </li>
             {% endif %}
         </ul>

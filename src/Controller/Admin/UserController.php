@@ -24,7 +24,7 @@ final class UserController extends AbstractController
     public function index(Request $request): Response
     {
 	    $userRepo = $this->entityManager->getRepository(User::class);
-	    $page = $request->query->getInt('pageUser', 1);
+	    $page = $request->query->getInt('userPage', 1);
 
 	    $criteria = [];
 
@@ -43,15 +43,15 @@ final class UserController extends AbstractController
 	    return $this->render('admin/user/index.html.twig', [
 		    'users' => $users,
 		    'total' => $total,
-		    'pageUser' => $page
+		    'userPage' => $page
 	    ]);
     }
 
 	#[Route(path: '/admin/user/add', name: 'admin_user_add')]
 	public function add(Request $request, UserPasswordHasherInterface $passwordHasher): Response
 	{
+		$userPage = $request->query->getInt('userPage', 1);
 		$user = new User();
-
 		$form = $this->createForm(UserType::class, $user);
 		$form->handleRequest($request);
 		if ($form->isSubmitted() && $form->isValid()) {
@@ -59,7 +59,10 @@ final class UserController extends AbstractController
 			$user->setPassword($hashedPassword);
 			$this->entityManager->persist($user);
 			$this->entityManager->flush();
-			return $this->redirectToRoute('admin_user_index');
+			return $this->redirectToRoute('admin_user_index',
+			[
+				'pageUser' => $userPage
+			]);
 		}
 
 		return $this->render('admin/user/add.html.twig', [
@@ -70,16 +73,21 @@ final class UserController extends AbstractController
 	#[Route(path: '/admin/user/modify/{id}', name: 'admin_user_modify')]
 	public function edit(Request $request, User $user, UserPasswordHasherInterface $passwordHasher): Response
 	{
+		$userPage = $request->query->getInt('userPage', 1);
 		$form = $this->createForm(UserType::class, $user, [
 			'type' => 'edit'
 		]);
 		$form->handleRequest($request);
 		if ($form->isSubmitted() && $form->isValid()) {
-			$hashedPassword = $passwordHasher->hashPassword($user, $user->getPassword());
-			$user->setPassword($hashedPassword);
+			if ($form->get('password')->getData()) {
+				$hashedPassword = $passwordHasher->hashPassword($user, $user->getPassword());
+				$user->setPassword($hashedPassword);
+			}
 			$this->entityManager->persist($user);
 			$this->entityManager->flush();
-			return $this->redirectToRoute('admin_user_index');
+			return $this->redirectToRoute('admin_user_index',[
+				'userPage' => $userPage
+			]);
 		}
 		return $this->render('admin/user/edit.html.twig', [
 			'user' => $user,

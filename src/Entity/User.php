@@ -113,8 +113,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getRoles(): array
     {
         $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
+	    if ($this->isBlocked()) {
+		    $roles[] = 'ROLE_BLOCKED';
+	    }
 
         return array_unique($roles);
     }
@@ -203,16 +205,26 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // @deprecated, to be removed when upgrading to Symfony 8
     }
 
-    public function isBlocked(): ?bool
-    {
-        return $this->blocked;
-    }
+	public function isBlocked(): bool
+	{
+		return in_array('ROLE_BLOCKED', $this->roles, true);
+	}
 
-    public function setBlocked(bool $blocked): static
-    {
-        $this->blocked = $blocked;
+	public function setBlocked(bool $blocked): static
+	{
+		if ($blocked) {
+			if (!in_array('ROLE_BLOCKED', $this->roles, true)) {
+				$this->roles[] = 'ROLE_BLOCKED';
+			}
+			$this->blocked = true;
+		} else {
+			$this->roles = array_diff($this->roles, ['ROLE_BLOCKED']);
+			$this->blocked = false;
+		}
 
-        return $this;
-    }
+		$this->roles = array_values($this->roles);
+
+		return $this;
+	}
 
 }
