@@ -55,6 +55,15 @@ class ProjectFixtures extends Fixture
 
 			$manager->persist($media);
 		}
+
+		$userAdmin = new User();
+		$userAdmin
+			->setName('Admin')
+			->setEmail('admin@mail.com')
+			->setPassword($this->passwordHasher->hashPassword($userAdmin, 'password'))
+			->setRoles(["ROLE_ADMIN"]);
+		$manager->persist($userAdmin);
+
         $manager->flush();
     }
 }

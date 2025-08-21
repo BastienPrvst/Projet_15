@@ -25,12 +25,17 @@ class MediaController extends AbstractController
 	public function index(Request $request): Response
 	{
 		$mediasRepo = $this->entityManager->getRepository(Media::class);
-        $page = $request->query->getInt('pageMedia', 1);
+        $page = $request->query->getInt('mediaPage', 1);
 
         $criteria = [];
 
         if (!$this->isGranted('ROLE_ADMIN')) {
             $criteria['user'] = $this->getUser();
+	        $total = $mediasRepo->count([
+		        'user' => $this->getUser(),
+	        ]);
+        }else{
+			$total = $mediasRepo->count();
         }
 
         $medias = $mediasRepo->findBy(
@@ -39,12 +44,12 @@ class MediaController extends AbstractController
             25,
             25 * ($page - 1)
         );
-        $total = $mediasRepo->count();
+
 
         return $this->render('admin/media/index.html.twig', [
             'medias' => $medias,
             'total' => $total,
-            'pageMedia' => $page
+            'mediaPage' => $page
         ]);
     }
 
