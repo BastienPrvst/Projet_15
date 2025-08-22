@@ -25,20 +25,14 @@ final class UserController extends AbstractController
     {
 	    $userRepo = $this->entityManager->getRepository(User::class);
 	    $page = $request->query->getInt('userPage', 1);
-
-	    $criteria = [];
-
-	    if (!$this->isGranted('ROLE_ADMIN')) {
-		    $criteria['user'] = $this->getUser();
-	    }
-
 	    $users = $userRepo->findBy(
-		    $criteria,
+		    [],
 		    ['id' => 'ASC'],
 		    25,
 		    25 * ($page - 1)
 	    );
-	    $total = $userRepo->count();
+
+	    $total = $userRepo->count([]);
 
 	    return $this->render('admin/user/index.html.twig', [
 		    'users' => $users,

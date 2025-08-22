@@ -44,6 +44,15 @@ class ProjectFixtures extends Fixture
 		$maxUsers = count($users);
 		$maxAlbums = count($albums);
 
+	    $userAdmin = new User();
+	    $userAdmin
+		    ->setName('Admin')
+		    ->setEmail('admin@mail.com')
+		    ->setPassword($this->passwordHasher->hashPassword($userAdmin, 'password'))
+		    ->setRoles(["ROLE_ADMIN"]);
+		$users[] = $userAdmin;
+	    $manager->persist($userAdmin);
+
 		for ($i = 0; $i < 50; $i++) {
 			$randUser = random_int(0, $maxUsers -1);
 			$randAlbums = random_int(0, $maxAlbums - 1);
@@ -55,14 +64,6 @@ class ProjectFixtures extends Fixture
 
 			$manager->persist($media);
 		}
-
-		$userAdmin = new User();
-		$userAdmin
-			->setName('Admin')
-			->setEmail('admin@mail.com')
-			->setPassword($this->passwordHasher->hashPassword($userAdmin, 'password'))
-			->setRoles(["ROLE_ADMIN"]);
-		$manager->persist($userAdmin);
 
         $manager->flush();
     }

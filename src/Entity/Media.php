@@ -24,12 +24,12 @@ class Media
     #[ORM\Column]
     private string $title;
 
-	#[Assert\File(
+	#[Assert\Image(
 		maxSize: '2M',
-		extensions: 'png, jpg, jpeg',
-		extensionsMessage: 'Utilisez un type de fichier valide (png, jpg, jpeg)',
+		mimeTypes: ['image/jpeg', 'image/png'],
+		mimeTypesMessage: 'Utilisez un type de fichier valide (png, jpg, jpeg)',
 	)]
-    private ?UploadedFile $file = null;
+	private ?UploadedFile $file = null;
 
     #[ORM\ManyToOne(fetch: 'EAGER', inversedBy: 'medias')]
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id')]

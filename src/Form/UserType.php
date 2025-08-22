@@ -46,6 +46,7 @@ class UserType extends AbstractType
             ])
             ->add('description', TextareaType::class, [
 				'label' => 'Description',
+	            'required' => false
             ])
 
 	        ->add('save', SubmitType::class, [
