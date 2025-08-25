@@ -32,7 +32,20 @@
     </testsuites>
 
     <coverage>
+
     </coverage>
+
+    <source>
+        <include>
+            <directory suffix=".php">src</directory>
+        </include>
+
+        <exclude>
+            <directory suffix=".php">src/DataFixtures</directory>
+            <file>src/autoload.php</file>
+        </exclude>
+    </source>
+
 
     <extensions>
         <bootstrap class="DAMA\DoctrineTestBundle\PHPUnit\PHPUnitExtension" />

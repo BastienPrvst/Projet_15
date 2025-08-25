@@ -60,7 +60,7 @@ class ProjectFixtures extends Fixture
 			$media->setTitle($faker->sentence(3));
 			$media->setUser($users[$randUser]);
 			$media->setAlbum($albums[$randAlbums]);
-			$media->setPath(sprintf('uploads/%03d.jpg', $i));
+			$media->setPath(sprintf('uploads/000%d.jpg', $i));
 
 			$manager->persist($media);
 		}

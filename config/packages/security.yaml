@@ -17,7 +17,6 @@ security:
             form_login:
                 login_path: admin_login
                 check_path: admin_login
-#            custom_authenticator: App\Security\LoginAuthenticator
             user_checker: App\Security\UserChecker
             logout:
                 path: admin_logout
@@ -33,10 +32,15 @@ security:
     role_hierarchy:
         ROLE_ADMIN: ROLE_USER
     access_control:
-        - { path: ^/, roles: PUBLIC_ACCESS }
-        - { path: ^/admin, roles: ROLE_USER }
-        - { path: ^/admin/user/*, roles: ROLE_ADMIN }
+        - { path: ^/$, roles: PUBLIC_ACCESS }
+        - { path: ^/login, roles: PUBLIC_ACCESS }
+        - { path: ^/logout, roles: ROLE_USER }
+
+        #Partie Admin
+        - { path: ^/admin/user, roles: ROLE_ADMIN }
         - { path: ^/admin/album, roles: ROLE_ADMIN }
+        - { path: ^/admin/media, roles: ROLE_USER }
+        - { path: ^/admin$, roles: ROLE_USER }
 
 when@test:
     security:

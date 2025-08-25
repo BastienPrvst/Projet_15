@@ -23,6 +23,20 @@ class ManageMediaTest extends WebTestCase
 		$this->entityManager = $this->client->getContainer()->get('doctrine.orm.entity_manager');
 	}
 
+	public function testShowMediasAsAdmin(): void
+	{
+		$userAdmin = $this->userRepo->findOneBy(['email' => 'admin@mail.com']);
+		$this->client->loginUser($userAdmin);
+		$allMedias = $this->entityManager->getRepository(Media::class)->findAll();
+		$totalMedias = count($allMedias);
+		$expectedMaxPages = (int) ceil($totalMedias / 25);
+		$crawler = $this->client->request('GET', $this->urlGenerator->generate('admin_media_index'));
+		$link = $crawler->filterXPath('//a[contains(text(), "Dernière page")]')->link();
+		$uri = $link->getUri();
+		$uri = explode('=', $uri);
+		self::assertSame($expectedMaxPages, (int) $uri[1]);
+	}
+
 	public function testAddMediaAsAdmin(): void
 	{
 		$userAdmin = $this->userRepo->findOneBy(['email' => 'admin@mail.com']);
@@ -54,5 +68,17 @@ class ManageMediaTest extends WebTestCase
 		$media = $this->entityManager->getRepository(Media::class)->findOneBy(['title' => 'test']);
 		self::assertNotNull($media);
 		self::assertContains($media, $userAdmin->getMedias());
+	}
+
+	public function testDeleteMedia():void
+	{
+		$userAdmin = $this->userRepo->findOneBy(['email' => 'admin@mail.com']);
+		$this->client->loginUser($userAdmin);
+		$media = $this->entityManager->getRepository(Media::class)->findOneBy([]);
+		$id = $media->getId();
+		$this->client->request('GET', $this->urlGenerator->generate('admin_media_delete', ['id' => $media->getId()]));
+		$mediaDeleted = $this->entityManager->getRepository(Media::class)->findOneBy(['id' => $id]);
+		self::assertNull($mediaDeleted);
+
 	}
 }

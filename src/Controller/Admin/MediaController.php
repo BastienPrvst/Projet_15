@@ -83,7 +83,9 @@ class MediaController extends AbstractController
 		if ($media){
 			$this->entityManager->remove($media);
 			$this->entityManager->flush();
-			unlink($media->getPath());
+			if (file_exists($media->getPath())) {
+				unlink($media->getPath());
+			}
 		}
 
         return $this->redirectToRoute('admin_media_index');
