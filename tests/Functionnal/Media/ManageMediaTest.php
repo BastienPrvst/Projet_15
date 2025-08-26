@@ -49,7 +49,7 @@ class ManageMediaTest extends WebTestCase
 		$crawler = $this->client->request('GET', $this->urlGenerator->generate('admin_media_index'));
 		$expectedMaxPages = (int) ceil(count($usermedia) / 25);
 
-		if ($expectedMaxPages === 1) {
+		if ($expectedMaxPages === 0 || $expectedMaxPages === 1) {
 			self::assertSame(
 				(count($usermedia)),
 				$crawler->filter('tbody tr')->count()
@@ -57,13 +57,11 @@ class ManageMediaTest extends WebTestCase
 
 		}else{
 
-			$this->client->request('GET', $this->urlGenerator->generate('admin_media_index', [
+			$crawler = $this->client->request('GET', $this->urlGenerator->generate('admin_media_index', [
 				"mediaPage" => $expectedMaxPages
 			]));
 
-			$this->client->followRedirect();
-
-			self::assertSame(count($usermedia), ((25 * $expectedMaxPages) + $crawler->filter('tbody tr')->count()));
+			self::assertSame(count($usermedia), ((25 * ($expectedMaxPages - 1)) + $crawler->filter('tbody tr')->count()));
 		}
 	}
 

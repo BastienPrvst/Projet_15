@@ -53,7 +53,7 @@ class ProjectFixtures extends Fixture
 		$users[] = $userAdmin;
 	    $manager->persist($userAdmin);
 
-		for ($i = 0; $i < 500; $i++) {
+		for ($i = 0; $i < 5000; $i++) {
 			$randUser = random_int(0, $maxUsers -1);
 			$randAlbums = random_int(0, $maxAlbums - 1);
 			$media = new Media();
