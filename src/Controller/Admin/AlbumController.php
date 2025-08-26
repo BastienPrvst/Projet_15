@@ -66,9 +66,9 @@ class AlbumController extends AbstractController
 	#[Route(path: '/admin/album/delete/{id}', name: 'admin_album_delete')]
 	public function delete(int $id): RedirectResponse
 	{
-        $media = $this->entityManager->getRepository(Album::class)->find($id);
-		if ($media){
-	        $this->entityManager->remove($media);
+        $album = $this->entityManager->getRepository(Album::class)->find($id);
+		if ($album){
+	        $this->entityManager->remove($album);
 	        $this->entityManager->flush();
 		}
         return $this->redirectToRoute('admin_album_index');

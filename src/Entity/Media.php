@@ -15,7 +15,16 @@ class Media
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(targetEntity: Album::class, fetch: "EAGER")]
+	#[ORM\ManyToOne(
+		targetEntity: Album::class,
+		fetch: "EAGER"
+	)]
+	#[ORM\JoinColumn(
+		name: "album_id",
+		referencedColumnName: "id",
+		nullable: true,
+		onDelete: "SET NULL"
+	)]
     private ?Album $album = null;
 
     #[ORM\Column]

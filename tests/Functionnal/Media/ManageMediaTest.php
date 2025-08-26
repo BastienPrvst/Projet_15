@@ -37,6 +37,36 @@ class ManageMediaTest extends WebTestCase
 		self::assertSame($expectedMaxPages, (int) $uri[1]);
 	}
 
+	public function testShowMediasAsUser(): void
+	{
+		$allGuests = $this->userRepo->findGuest();
+		$rand = random_int(0, count($allGuests) - 1);
+		/* @var $user User */
+		$guestData = $allGuests[$rand];
+		$user = $this->userRepo->find($guestData['id']);
+		$this->client->loginUser($user);
+		$usermedia = $user->getMedias();
+		$crawler = $this->client->request('GET', $this->urlGenerator->generate('admin_media_index'));
+		$expectedMaxPages = (int) ceil(count($usermedia) / 25);
+
+		if ($expectedMaxPages === 1) {
+			self::assertSame(
+				(count($usermedia)),
+				$crawler->filter('tbody tr')->count()
+			);
+
+		}else{
+
+			$this->client->request('GET', $this->urlGenerator->generate('admin_media_index', [
+				"mediaPage" => $expectedMaxPages
+			]));
+
+			$this->client->followRedirect();
+
+			self::assertSame(count($usermedia), ((25 * $expectedMaxPages) + $crawler->filter('tbody tr')->count()));
+		}
+	}
+
 	public function testAddMediaAsAdmin(): void
 	{
 		$userAdmin = $this->userRepo->findOneBy(['email' => 'admin@mail.com']);
