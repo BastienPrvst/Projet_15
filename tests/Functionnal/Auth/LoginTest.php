@@ -3,7 +3,9 @@
 namespace App\Tests\Functionnal\Auth;
 
 use App\Entity\User;
+use App\Security\UserChecker;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class LoginTest extends WebTestCase
 {
@@ -35,4 +37,23 @@ class LoginTest extends WebTestCase
 	    $this->client->followRedirect();
 	    self::assertSelectorTextContains('div.alert-danger', 'Votre compte est bloqué.');
     }
+
+	public function testCheckPreAuthWithNonAppUser():void
+	{
+		$checker = new UserChecker();
+		$fakeUser = $this->createMock(UserInterface::class);
+		$checker->checkPreAuth($fakeUser);
+
+		self::assertTrue(true);
+	}
+
+	public function testCheckPostAuthWithNonAppUser(): void
+	{
+		$checker = new UserChecker();
+		$fakeUser = $this->createMock(UserInterface::class);
+		$checker->checkPostAuth($fakeUser);
+
+		self::assertTrue(true);
+	}
+
 }

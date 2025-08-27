@@ -6,6 +6,7 @@ use App\Entity\Media;
 use App\Form\MediaType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -54,7 +55,7 @@ class MediaController extends AbstractController
     }
 
 	#[Route(path: '/admin/media/add', name: 'admin_media_add')]
-	public function add(Request $request): RedirectResponse|Response
+	public function add(Request $request, ParameterBagInterface $parameterBag): RedirectResponse|Response
 	{
         $media = new Media();
         $form = $this->createForm(MediaType::class, $media, ['is_admin' => $this->isGranted('ROLE_ADMIN')]);
@@ -64,8 +65,10 @@ class MediaController extends AbstractController
             if (!$this->isGranted('ROLE_ADMIN')) {
                 $media->setUser($this->getUser());
             }
-            $media->setPath('uploads/' . md5(uniqid('', true)) . '.' . $media->getFile()?->guessExtension());
-            $media->getFile()?->move('uploads/', $media->getPath());
+			$fileName = md5(uniqid('', true)) . '.' . $media->getFile()?->guessExtension();
+            $media->setPath('uploads/' . $fileName);
+			$root = $parameterBag->get('kernel.project_dir');
+            $media->getFile()?->move($root . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'uploads' , $fileName);
             $this->entityManager->persist($media);
             $this->entityManager->flush();
 
@@ -80,6 +83,9 @@ class MediaController extends AbstractController
 	public function delete(int $id): RedirectResponse
 	{
         $media = $this->entityManager->getRepository(Media::class)->find($id);
+		if ($media?->getUser() !== $this->getUser()) {
+			$this->redirectToRoute('admin_media_index');
+		}
 		if ($media){
 			$this->entityManager->remove($media);
 			$this->entityManager->flush();

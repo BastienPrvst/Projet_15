@@ -67,6 +67,12 @@ parameters:
 			path: tests/Functionnal/Album/ManageAlbumTest.php
 
 		-
+			message: '#^Call to static method PHPUnit\\Framework\\Assert\:\:assertTrue\(\) with true will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 2
+			path: tests/Functionnal/Auth/LoginTest.php
+
+		-
 			message: '#^Property App\\Tests\\Functionnal\\Auth\\LoginTest\:\:\$client has no type specified\.$#'
 			identifier: missingType.property
 			count: 1
@@ -91,6 +97,30 @@ parameters:
 			path: tests/Functionnal/Auth/LoginTest.php
 
 		-
+			message: '#^Property App\\Tests\\Functionnal\\Front\\FrontTest\:\:\$client has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Functionnal/Front/FrontTest.php
+
+		-
+			message: '#^Property App\\Tests\\Functionnal\\Front\\FrontTest\:\:\$entityManager has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Functionnal/Front/FrontTest.php
+
+		-
+			message: '#^Property App\\Tests\\Functionnal\\Front\\FrontTest\:\:\$urlGenerator has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Functionnal/Front/FrontTest.php
+
+		-
+			message: '#^Property App\\Tests\\Functionnal\\Front\\FrontTest\:\:\$userRepo has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Functionnal/Front/FrontTest.php
+
+		-
 			message: '#^Property App\\Tests\\Functionnal\\Media\\ManageMediaTest\:\:\$client has no type specified\.$#'
 			identifier: missingType.property
 			count: 1
@@ -113,30 +143,6 @@ parameters:
 			identifier: missingType.property
 			count: 1
 			path: tests/Functionnal/Media/ManageMediaTest.php
-
-		-
-			message: '#^Property App\\Tests\\Functionnal\\User\\GuestTest\:\:\$client has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: tests/Functionnal/User/GuestTest.php
-
-		-
-			message: '#^Property App\\Tests\\Functionnal\\User\\GuestTest\:\:\$entityManager has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: tests/Functionnal/User/GuestTest.php
-
-		-
-			message: '#^Property App\\Tests\\Functionnal\\User\\GuestTest\:\:\$urlGenerator has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: tests/Functionnal/User/GuestTest.php
-
-		-
-			message: '#^Property App\\Tests\\Functionnal\\User\\GuestTest\:\:\$userRepo has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: tests/Functionnal/User/GuestTest.php
 
 		-
 			message: '#^Property App\\Tests\\Functionnal\\User\\ManageUserTest\:\:\$client has no type specified\.$#'
