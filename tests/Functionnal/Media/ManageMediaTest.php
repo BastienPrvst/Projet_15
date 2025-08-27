@@ -93,9 +93,14 @@ class ManageMediaTest extends WebTestCase
 
 		self::assertResponseRedirects('/admin/media');
 
+		/** @var Media $media */
 		$media = $this->entityManager->getRepository(Media::class)->findOneBy(['title' => 'test']);
-		self::assertNotNull($media);
 		self::assertContains($media, $userAdmin->getMedias());
+
+		//Suppression fichier
+		$root = $this->client->getKernel()->getProjectDir();
+		$path = $media->getPath();
+		unlink($root . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . $path);
 	}
 
 	public function testDeleteMedia():void
