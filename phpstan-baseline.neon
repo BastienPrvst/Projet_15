@@ -1,0 +1,175 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Parameter \#1 \$user of method App\\Entity\\Media\:\:setUser\(\) expects App\\Entity\\User\|null, Symfony\\Component\\Security\\Core\\User\\UserInterface\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/Admin/MediaController.php
+
+		-
+			message: '#^Property App\\Entity\\Album\:\:\$id \(int\|null\) is never assigned int so it can be removed from the property type\.$#'
+			identifier: property.unusedType
+			count: 1
+			path: src/Entity/Album.php
+
+		-
+			message: '#^Property App\\Entity\\Media\:\:\$id \(int\|null\) is never assigned int so it can be removed from the property type\.$#'
+			identifier: property.unusedType
+			count: 1
+			path: src/Entity/Media.php
+
+		-
+			message: '#^Property App\\Entity\\User\:\:\$blocked \(bool\|null\) is never assigned null so it can be removed from the property type\.$#'
+			identifier: property.unusedType
+			count: 1
+			path: src/Entity/User.php
+
+		-
+			message: '#^Property App\\Entity\\User\:\:\$id \(int\|null\) is never assigned int so it can be removed from the property type\.$#'
+			identifier: property.unusedType
+			count: 1
+			path: src/Entity/User.php
+
+		-
+			message: '#^Class App\\Repository\\AlbumRepository extends generic class Doctrine\\Bundle\\DoctrineBundle\\Repository\\ServiceEntityRepository but does not specify its types\: T$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Repository/AlbumRepository.php
+
+		-
+			message: '#^Class App\\Repository\\MediaRepository extends generic class Doctrine\\Bundle\\DoctrineBundle\\Repository\\ServiceEntityRepository but does not specify its types\: T$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Repository/MediaRepository.php
+
+		-
+			message: '#^Property App\\Tests\\Functionnal\\Album\\ManageAlbumTest\:\:\$client has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Functionnal/Album/ManageAlbumTest.php
+
+		-
+			message: '#^Property App\\Tests\\Functionnal\\Album\\ManageAlbumTest\:\:\$entityManager has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Functionnal/Album/ManageAlbumTest.php
+
+		-
+			message: '#^Property App\\Tests\\Functionnal\\Album\\ManageAlbumTest\:\:\$urlGenerator has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Functionnal/Album/ManageAlbumTest.php
+
+		-
+			message: '#^Property App\\Tests\\Functionnal\\Album\\ManageAlbumTest\:\:\$userRepo has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Functionnal/Album/ManageAlbumTest.php
+
+		-
+			message: '#^Property App\\Tests\\Functionnal\\Auth\\LoginTest\:\:\$client has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Functionnal/Auth/LoginTest.php
+
+		-
+			message: '#^Property App\\Tests\\Functionnal\\Auth\\LoginTest\:\:\$entityManager has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Functionnal/Auth/LoginTest.php
+
+		-
+			message: '#^Property App\\Tests\\Functionnal\\Auth\\LoginTest\:\:\$urlGenerator has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Functionnal/Auth/LoginTest.php
+
+		-
+			message: '#^Property App\\Tests\\Functionnal\\Auth\\LoginTest\:\:\$userRepo has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Functionnal/Auth/LoginTest.php
+
+		-
+			message: '#^Property App\\Tests\\Functionnal\\Media\\ManageMediaTest\:\:\$client has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Functionnal/Media/ManageMediaTest.php
+
+		-
+			message: '#^Property App\\Tests\\Functionnal\\Media\\ManageMediaTest\:\:\$entityManager has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Functionnal/Media/ManageMediaTest.php
+
+		-
+			message: '#^Property App\\Tests\\Functionnal\\Media\\ManageMediaTest\:\:\$urlGenerator has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Functionnal/Media/ManageMediaTest.php
+
+		-
+			message: '#^Property App\\Tests\\Functionnal\\Media\\ManageMediaTest\:\:\$userRepo has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Functionnal/Media/ManageMediaTest.php
+
+		-
+			message: '#^Property App\\Tests\\Functionnal\\User\\GuestTest\:\:\$client has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Functionnal/User/GuestTest.php
+
+		-
+			message: '#^Property App\\Tests\\Functionnal\\User\\GuestTest\:\:\$entityManager has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Functionnal/User/GuestTest.php
+
+		-
+			message: '#^Property App\\Tests\\Functionnal\\User\\GuestTest\:\:\$urlGenerator has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Functionnal/User/GuestTest.php
+
+		-
+			message: '#^Property App\\Tests\\Functionnal\\User\\GuestTest\:\:\$userRepo has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Functionnal/User/GuestTest.php
+
+		-
+			message: '#^Property App\\Tests\\Functionnal\\User\\ManageUserTest\:\:\$client has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Functionnal/User/ManageUserTest.php
+
+		-
+			message: '#^Property App\\Tests\\Functionnal\\User\\ManageUserTest\:\:\$entityManager has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Functionnal/User/ManageUserTest.php
+
+		-
+			message: '#^Property App\\Tests\\Functionnal\\User\\ManageUserTest\:\:\$urlGenerator has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Functionnal/User/ManageUserTest.php
+
+		-
+			message: '#^Property App\\Tests\\Functionnal\\User\\ManageUserTest\:\:\$userRepo has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/Functionnal/User/ManageUserTest.php
+
+		-
+			message: '#^Method App\\Tests\\Unit\\MediaTest\:\:provideDataUpload\(\) return type has no value type specified in iterable type iterable\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Unit/MediaTest.php
+
+		-
+			message: '#^Method App\\Tests\\Unit\\MediaTest\:\:testUploadFile\(\) has parameter \$data with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Unit/MediaTest.php

@@ -36,6 +36,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     }
 
 	/**
+	 * @return array<int, array<string, mixed>>
 	 * @throws Exception
 	 */
 	public function findGuest(): array
