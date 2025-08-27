@@ -19,8 +19,6 @@ final class Version20250814095946 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-	    $passwordHash = $_ENV['MIGRATE_PASSWORD'] ?? null;
-
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE media DROP CONSTRAINT fk_6a2ca10ca76ed395');
         $this->addSql('DROP INDEX idx_6a2ca10ca76ed395');
@@ -30,7 +28,7 @@ final class Version20250814095946 extends AbstractMigration
         $this->addSql('ALTER TABLE "user" ADD roles JSON DEFAULT NULL');
 	    $this->addSql('UPDATE "user" SET roles = \'[]\' WHERE roles IS NULL');
         $this->addSql('ALTER TABLE "user" ADD password VARCHAR(255) NULL');
-	    $this->addSql("UPDATE \"user\" SET password = '" . addslashes($passwordHash) . "' WHERE password IS NULL");
+	    $this->addSql('UPDATE "user" SET password = "password" WHERE password IS NULL');
         $this->addSql('ALTER TABLE "user" DROP admin');
         $this->addSql('ALTER TABLE "user" ALTER name DROP NOT NULL');
         $this->addSql('ALTER TABLE "user" ALTER name TYPE VARCHAR(180)');
