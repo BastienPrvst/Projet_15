@@ -64,7 +64,7 @@ final class UserController extends AbstractController
 		]);
 	}
 
-	#[Route(path: '/admin/user/modify/{id}', name: 'admin_user_modify')]
+	#[Route(path: '/admin/user/modify/{user}', name: 'admin_user_modify')]
 	public function edit(Request $request, User $user, UserPasswordHasherInterface $passwordHasher): Response
 	{
 		$userPage = $request->query->getInt('userPage', 1);
@@ -91,16 +91,11 @@ final class UserController extends AbstractController
 	}
 
 
-	#[Route(path: '/admin/user/delete/{id}', name: 'admin_user_delete')]
-	public function delete(int $id): RedirectResponse
+	#[Route(path: '/admin/user/delete/{user}', name: 'admin_user_delete')]
+	public function delete(User $user): RedirectResponse
 	{
-		$user = $this->entityManager->getRepository(User::class)->find($id);
-
-		if ($user){
-			$this->entityManager->remove($user);
-			$this->entityManager->flush();
-		}
-
+		$this->entityManager->remove($user);
+		$this->entityManager->flush();
 		return $this->redirectToRoute('admin_user_index');
 	}
 }
