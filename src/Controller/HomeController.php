@@ -36,23 +36,21 @@ class HomeController extends AbstractController
         ]);
     }
 
-	#[Route(path: '/guest/{id}', name: 'guest')]
-	public function guest(int $id): Response
+	#[Route(path: '/guest/{user}', name: 'guest')]
+	public function guest(User $user): Response
 	{
-        $guest = $this->userRepository->find($id);
         return $this->render('front/guest.html.twig', [
-            'guest' => $guest
+            'guest' => $user
         ]);
     }
 
-    #[Route(path: '/portfolio/{id?}', name: 'portfolio')]
-	public function portfolio(?int $id = null): Response
+    #[Route(path: '/portfolio/{album?}', name: 'portfolio')]
+	public function portfolio(?Album $album): Response
     {
 		$albumRepo = $this->entityManager->getRepository(Album::class);
 		$mediaRepo = $this->entityManager->getRepository(Media::class);
 
 	    $albums = $albumRepo->findAll();
-	    $album = $id ? $albumRepo->find($id) : null;
 	    $allUser = $this->userRepository->findAll();
 	    $user = current(array_filter($allUser, static function (User $user) {
 		    return in_array('ROLE_ADMIN', $user->getRoles(), true);

@@ -23,8 +23,8 @@
                 <td>{{ "ROLE_ADMIN" in user.roles ? "Administrateur" : "Invité" }}</td>
                 <td>{{ user.blocked == true ? "Bloqué" : "Actif"}}</td>
                 <td>
-                    <a href="{{ path('admin_user_modify', {id: user.id, userPage: app.request.query.get('userPage', 1)}) }}" class="btn btn-warning my-3">Modifier</a>
-                    <a href="{{ path('admin_user_delete', {id: user.id, userPage: app.request.query.get('userPage', 1)}) }}" class="btn btn-danger">Supprimer</a>
+                    <a href="{{ path('admin_user_modify', {user: user.id, userPage: app.request.query.get('userPage', 1)}) }}" class="btn btn-warning my-3">Modifier</a>
+                    <a href="{{ path('admin_user_delete', {user: user.id, userPage: app.request.query.get('userPage', 1)}) }}" class="btn btn-danger">Supprimer</a>
                 </td>
             </tr>
         {% endfor %}

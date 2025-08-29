@@ -79,20 +79,22 @@ class MediaController extends AbstractController
     }
 
 
-	#[Route(path: '/admin/media/delete/{id}', name: 'admin_media_delete')]
-	public function delete(int $id): RedirectResponse
+	#[Route(path: '/admin/media/delete/{media}', name: 'admin_media_delete')]
+	public function delete(Media $media): RedirectResponse
 	{
-        $media = $this->entityManager->getRepository(Media::class)->find($id);
-		if ($media?->getUser() !== $this->getUser()) {
-			$this->redirectToRoute('admin_media_index');
+		if (
+			$media->getUser() !== $this->getUser() &&
+			!in_array("ROLE_ADMIN", $this->getUser()?->getRoles(), true)
+		) {
+			return $this->redirectToRoute('home');
 		}
-		if ($media){
-			$this->entityManager->remove($media);
-			$this->entityManager->flush();
-			if (file_exists($media->getPath())) {
-				unlink($media->getPath());
-			}
+
+		$this->entityManager->remove($media);
+		$this->entityManager->flush();
+		if (file_exists($media->getPath())) {
+			unlink($media->getPath());
 		}
+
 
         return $this->redirectToRoute('admin_media_index');
     }
