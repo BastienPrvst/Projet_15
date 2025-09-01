@@ -55,7 +55,7 @@ class ManageUserTest extends WebTestCase
 		$user = $this->userRepo->findOneBy(['email' => 'admin@mail.com']);
 		$this->client->loginUser($user);
 		$crawler = $this->client->request(Request::METHOD_GET, $this->urlGenerator->generate('admin_user_modify', [
-			'id' => $user->getId()
+			'user' => $user->getId()
 		]));
 		self::assertResponseIsSuccessful();
 		$form = $crawler->selectButton('Modifier')->form();
@@ -87,7 +87,7 @@ class ManageUserTest extends WebTestCase
 		$totalUser = $this->userRepo->count([]);
 		$maxPage = ceil($totalUser / 25);
 		$this->client->request(Request::METHOD_GET, $this->urlGenerator->generate('admin_user_delete', [
-			'id' => $id,
+			'user' => $id,
 			'userPage' => $maxPage
 		]));
 		self::assertResponseStatusCodeSame(302);

@@ -109,7 +109,7 @@ class ManageMediaTest extends WebTestCase
 		$this->client->loginUser($userAdmin);
 		$media = $this->entityManager->getRepository(Media::class)->findOneBy([]);
 		$id = $media->getId();
-		$this->client->request('GET', $this->urlGenerator->generate('admin_media_delete', ['id' => $media->getId()]));
+		$this->client->request('GET', $this->urlGenerator->generate('admin_media_delete', ['media' => $media->getId()]));
 		$mediaDeleted = $this->entityManager->getRepository(Media::class)->findOneBy(['id' => $id]);
 		self::assertNull($mediaDeleted);
 

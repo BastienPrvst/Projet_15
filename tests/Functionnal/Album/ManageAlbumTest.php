@@ -51,7 +51,7 @@ class ManageAlbumTest extends WebTestCase
 		$adminUser = $this->userRepo->findOneBy(['email' => 'admin@mail.com']);
 		$this->client->loginUser($adminUser);
 		$albumToUpdate = $this->entityManager->getRepository(Album::class)->findOneBy([]);
-		$crawler = $this->client->request('GET', $this->urlGenerator->generate('admin_album_update', ['id' => $albumToUpdate->getId()]));
+		$crawler = $this->client->request('GET', $this->urlGenerator->generate('admin_album_update', ['album' => $albumToUpdate->getId()]));
 		$form = $crawler->selectButton('Modifier')->form();
 		$form['album[name]'] = 'test';
 		$this->client->submit($form);
@@ -71,7 +71,7 @@ class ManageAlbumTest extends WebTestCase
 
 		$albumToDelete = $this->entityManager->getRepository(Album::class)->findOneBy([]);
 		$id = $albumToDelete->getId();
-		$this->client->request('GET', $this->urlGenerator->generate('admin_album_delete', ['id' => $id ]));
+		$this->client->request('GET', $this->urlGenerator->generate('admin_album_delete', ['album' => $id ]));
 		self::assertResponseRedirects();
 
 		$albumDeleted = $this->entityManager->getRepository(Album::class)->findOneBy(['id' => $albumToDelete->getId()]);
