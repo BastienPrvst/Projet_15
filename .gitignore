@@ -9,6 +9,10 @@
 /vendor/
 ###< symfony/framework-bundle ###
 
+###> Images de Test
+uploads/*
+!uploads/*fix*.jpg
+
 ###> phpunit/phpunit ###
 /phpunit.xml
 .phpunit.result.cache
