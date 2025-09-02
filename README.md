@@ -26,6 +26,8 @@ Pour vous connecter sur le projet :
 
 email: `admin@mail.com` mdp: `password`
 
+Si vous avez des soucis d'indexation avec Postgres, la commande SQL `SELECT setval('{nomDeLaTable}_id_seq', max(id)) FROM {nomDeLaTable};`. Elle permet de réaligner les id de votre table avec le nombre réel d'entités en base.
+
 Concernant les tests, le Doctrine Test Bundle est mis en place, il utilise un système de rollback après chaque modification en BDD d'un test, permettant de ne pas se soucier d'annuler des suppression, de remettre un nom etc.
 
 Le fichier contributing.md détaille les directives de contributions au projet afin de le maintenir stable et sain.
