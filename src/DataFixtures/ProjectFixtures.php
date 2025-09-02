@@ -53,14 +53,16 @@ class ProjectFixtures extends Fixture
 	    $maxUsers = count($users);
 	    $maxAlbums = count($albums);
 
-		for ($i = 0; $i < 500; $i++) {
+	    for ($i = 0; $i < 500; $i++) {
+
 			$randUser = random_int(0, $maxUsers -1);
 			$randAlbums = random_int(0, $maxAlbums - 1);
 			$media = new Media();
 			$media->setTitle($faker->sentence(3));
 			$media->setUser($users[$randUser]);
 			$media->setAlbum($albums[$randAlbums]);
-			$media->setPath(sprintf('uploads/000%d.jpg', $i));
+			$randMedia = random_int(1, 30);
+			$media->setPath('uploads/fix-' . $randMedia . '.jpg');
 
 			$manager->persist($media);
 		}

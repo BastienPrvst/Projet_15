@@ -42,7 +42,7 @@ class FrontTest extends WebTestCase
 	{
 		$user = $this->userRepo->findOneBy([]);
 		$allUserMedias = $user->getMedias();
-		$crawler = $this->client->request('GET', $this->urlGenerator->generate('guest', ['id' => $user->getId()]));
+		$crawler = $this->client->request('GET', $this->urlGenerator->generate('guest', ['user' => $user->getId()]));
 		self::assertSame(count($allUserMedias), $crawler->filter('div.media')->count());
 	}
 
@@ -56,7 +56,7 @@ class FrontTest extends WebTestCase
 		$id = $album->getId();
 		$expectedMedias = $mediaRepo->findBy(['album' => $album]);
 
-		$crawler = $this->client->request('GET', $this->urlGenerator->generate('portfolio', ['id' => $id]));
+		$crawler = $this->client->request('GET', $this->urlGenerator->generate('portfolio', ['album' => $id]));
 		self::assertSame(count($expectedMedias), $crawler->filter('div.media')->count());
 	}
 

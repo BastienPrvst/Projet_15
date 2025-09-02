@@ -1,5 +1,6 @@
 /.idea
 ###> symfony/framework-bundle ###
+/.env
 /.env.local
 /.env.local.php
 /.env.*.local
@@ -9,12 +10,11 @@
 /vendor/
 ###< symfony/framework-bundle ###
 
+###> Images de Test
+uploads/*
+!uploads/*fix*.jpg
+
 ###> phpunit/phpunit ###
 /phpunit.xml
 .phpunit.result.cache
 ###< phpunit/phpunit ###
-
-###> symfony/phpunit-bridge ###
-.phpunit.result.cache
-/phpunit.xml
-###< symfony/phpunit-bridge ###

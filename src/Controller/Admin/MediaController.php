@@ -91,7 +91,11 @@ class MediaController extends AbstractController
 
 		$this->entityManager->remove($media);
 		$this->entityManager->flush();
-		if (file_exists($media->getPath())) {
+		if (in_array($_SERVER['APP_ENV'], ['dev', 'test'], true)) {
+			if (file_exists($media->getPath()) && !str_contains($media->getPath(), 'fix-')) {
+				unlink($media->getPath());
+			}
+		} elseif (file_exists($media->getPath())) {
 			unlink($media->getPath());
 		}
 
