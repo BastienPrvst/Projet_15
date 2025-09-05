@@ -22,7 +22,7 @@ class AlbumController extends AbstractController
 	#[Route(path: '/admin/album', name: 'admin_album_index')]
 	public function index(): Response
 	{
-        $albums = $this->entityManager->getRepository(Album::class)->findAll();
+        $albums = $this->entityManager->getRepository(Album::class)->findBy([], ['id' => 'ASC']);
 
         return $this->render('admin/album/index.html.twig', ['albums' => $albums]);
     }
