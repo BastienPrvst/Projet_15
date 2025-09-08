@@ -116,6 +116,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $roles[] = 'ROLE_USER';
 	    if ($this->isBlocked()) {
 		    $roles[] = 'ROLE_BLOCKED';
+	    }else{
+		    $roles = array_diff($roles, ['ROLE_BLOCKED']);
 	    }
 
         return array_unique($roles);
