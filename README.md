@@ -18,9 +18,9 @@ Il s'agit d'un site d'affichage et de gestion de photos et d'albums de photos. U
  
 ### Création de la base de données
 Lancer :
-    - `php bin/console doctrine database create`
-    - `php bin/console doctrine migration migrate`
-    - `php bin/console doctrine fixtures load`
+    - `php bin/console doctrine:database:create`
+    - `php bin/console doctrine:migration:migrate`
+    - `php bin/console doctrine:fixtures:load`
 pour créer votre BDD et la remplir avec les fixtures.
 Pour la partie test, je vous invite à relancer trois commandes ci-dessus avec à la fin de chacunes --env=test
 
